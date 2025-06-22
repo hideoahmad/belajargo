@@ -2,7 +2,7 @@ package database
 
 import (
 	"fmt"
-	"log"
+	"os"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -11,13 +11,17 @@ import (
 var DB *gorm.DB
 
 func Connect() {
-	// Ubah sesuai konfigurasi MySQL Anda
-	dsn := "root:@tcp(127.0.0.1:3306)/belajargo?charset=utf8mb4&parseTime=True&loc=Local"
+	user := os.Getenv("DB_USER")
+	pass := os.Getenv("DB_PASS")
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	name := os.Getenv("DB_NAME")
 
-	var err error
-	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", user, pass, host, port, name)
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal("Gagal koneksi ke database:", err)
+		fmt.Println("Gagal koneksi ke database:", err)
+		os.Exit(1)
 	}
-	fmt.Println("Koneksi database berhasil")
+	DB = db
 }
