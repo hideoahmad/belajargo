@@ -7,6 +7,9 @@ import (
 )
 
 func RegisterRoutes(r *gin.Engine) {
+	// Arahkan root "/" ke halaman login
+	r.GET("/", controllers.ShowLoginPage)
+
 	r.GET("/login", controllers.ShowLoginPage)
 	r.POST("/login", controllers.LoginUser)
 
@@ -16,3 +19,4 @@ func RegisterRoutes(r *gin.Engine) {
 	r.GET("/dashboard", controllers.ShowDashboard)
 	r.POST("/logout", controllers.Logout)
 }
+

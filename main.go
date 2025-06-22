@@ -19,6 +19,8 @@ func main() {
 	// Buat router
 	r := gin.Default()
 
+    
+
 	// Hubungkan ke database
 	database.Connect()
 
